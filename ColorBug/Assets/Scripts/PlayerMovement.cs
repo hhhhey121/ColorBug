@@ -18,44 +18,97 @@ public class PlayerMovement : MonoBehaviour
 
     public LayerMask ground;//图层
 
-    public int jumpCount = 2;//跳跃次数
+    public Transform otherPlayer;//拖入另一个玩家对象
+    public float sperarationThreshold = 0.1f;//同一垂直线判定
+    private bool isSeparated = false;
+
+    public int maxJumpCountCombined = 1;
+    public int maxJumpCountSplit = 2;
+    private int jumpCount = 2;// 当前跳跃次数
+    //public int jumpCount = 2;//跳跃次数
+    //public int maxJumpCount = 2;
+
+    private bool wasGround;
 
     private float moveX;
 
     private bool moveJump;//跳跃输入
 
-    bool isJump;//传递作用，表跳跃状态
+    public bool isJump;//传递作用，表跳跃状态
 
 
     void Start()//开始时调用一下
     {
         rb = GetComponent<Rigidbody2D>();//初始化获取组件
         anim = GetComponent<Animator>();//初始化动画
+
+        wasGround = true;
+
+        //初始时检查状态
+        CheckSeparation();
+        //根据初始状态设置跳跃次数
+        jumpCount = isSeparated ? maxJumpCountSplit : maxJumpCountCombined;                                                                                                                                                       
     }
 
     void Update()//每渲染一帧就调用一下(input类放置
     {
+        CheckSeparation();//每一帧都检查是否分离
+
         moveX = Input.GetAxisRaw("Horizontal");//获取A D -1 1
-        moveJump = Input.GetButtonDown("Jump");
+        moveJump = Input.GetButtonDown("Jump");//获取W
 
         if (moveJump && jumpCount > 0)
         {
             isJump = true;
-
+            
         }
+    }
+
+    //检查方法
+    private void CheckSeparation()
+    {
+        if(otherPlayer == null) 
+        {
+            isSeparated = true;
+            return;
+        }
+
+        //检查x轴坐标差值
+        float distanceX=Mathf.Abs(transform.position.x-otherPlayer.position.x);
+
+        //分离定义
+        if(distanceX > sperarationThreshold )
+        {
+            isSeparated=true;
+        }
+        else isSeparated = false;
     }
 
     private void FixedUpdate()//物理类放置 固定数值
     {
+        // 记录上一帧的地面状态
+        wasGround = isGround;
+        
         isGround = Physics2D.OverlapCircle(groundCheck.position, 0.2f, ground);
+
+        if (isGround && !wasGround)
+        {
+            //jumpCount = maxJumpCount;
+            //落地后根据当前是否分离来重置跳跃次数
+            jumpCount = isSeparated ? maxJumpCountSplit : maxJumpCountCombined;
+        }
+
         Move();
         Jump();
     }
     private void Move()
     {
+        if(anim != null) 
+        {
         anim.SetFloat("speed", Mathf.Abs(moveX));//绝对值 向左跑时x为-1也生效
+        }
 
-        rb.velocity = new Vector2(moveX * playerSpeed, rb.velocity.y);
+            rb.velocity = new Vector2(moveX * playerSpeed, rb.velocity.y);
 
         if (moveX != 0)//在按键
         {
@@ -65,14 +118,14 @@ public class PlayerMovement : MonoBehaviour
 
     private void Jump()
     {
-        if (isGround)
-        {
-            jumpCount = 2;
-        }
+        //if (isGround)
+        //{
+        //    jumpCount = 2;
+        //}
 
         if (isJump)
         {
-            rb.velocity = new Vector2(rb.velocity.x, 0f);//在施加跳跃力之前，先把Y轴速度清零,确保每次跳跃的高度都一致二段跳变得有力、跟手
+            rb.velocity = new Vector2(rb.velocity.x, 0f);//在施加跳跃力之前，把Y轴速度清零,确保每次跳跃的高度都一致二段跳变得有力、跟手
             rb.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);//方向*速度
             jumpCount--;
             isJump = false;
@@ -82,5 +135,7 @@ public class PlayerMovement : MonoBehaviour
         //跳跃手感优化（重力因素）（长按跳的更远等等。。
 
     }
+    
+    
 }
 
