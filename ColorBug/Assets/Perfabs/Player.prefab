@@ -34,7 +34,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2.9, y: -0.23, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 750493408858255724}
   m_Father: {fileID: 0}
@@ -80,7 +80,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: -6367560908665664636, guid: cd947491a13509945aa1b644f9db3ef2, type: 3}
+  m_Sprite: {fileID: 341185558, guid: cff9b9697805cad428a01ad2587515d4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -150,7 +150,13 @@ MonoBehaviour:
   ground:
     serializedVersion: 2
     m_Bits: 128
-  jumpCount: 2
+  otherPlayer: {fileID: 0}
+  sperarationThreshold: 0.1
+  maxJumpCountCombined: 1
+  maxJumpCountSplit: 2
+  isJump: 0
+  mainCamera: {fileID: 0}
+  screenEdgePadding: 0.5
 --- !u!70 &6613067260478662001
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -196,7 +202,7 @@ Animator:
   m_GameObject: {fileID: 6560795049023389665}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 2f615e2b24ebfd64e965c4b81a788773, type: 2}
+  m_Controller: {fileID: 9100000, guid: 2fe2bd23fca52cf45b48f51dc46d9e68, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
