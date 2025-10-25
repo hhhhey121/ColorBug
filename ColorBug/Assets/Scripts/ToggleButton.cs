@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ToggleButton : MonoBehaviour
 {
-    public MovingPlatform[] platformsToControl;
+    ////public MovingPlatform[] platformsToControl;
 
     //ÊÓ¾õ·´À¡
     public Sprite pressedSprite;
@@ -62,13 +62,13 @@ public class ToggleButton : MonoBehaviour
             sr.sprite=isPressed?pressedSprite:unpressedSprite;
         }
 
-        foreach(MovingPlatform platform in platformsToControl)
-        {
-            if(platform!=null)
-            {
-                platform.ToggleTarget();
-            }
-        }
+        //foreach(MovingPlatform platform in platformsToControl)
+        //{
+        //    if(platform!=null)
+        //    {
+        //        platform.ToggleTarget();
+        //    }
+        //}
     }
 
     // Update is called once per frame
