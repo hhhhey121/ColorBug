@@ -4,68 +4,74 @@ using UnityEngine;
 
 public class ToggleButton : MonoBehaviour
 {
-    //ÔÚInspectorÖĞÑ¡ÔñË«°´Å¥Ä£Ê½
+    //åœ¨Inspectorä¸­é€‰æ‹©åŒæŒ‰é’®æ¨¡å¼
     public bool requiresOtherButton = false;
 
-    //Ë«°´Å¥Ä£Ê½ÉèÖÃ
+    //åŒæŒ‰é’®æ¨¡å¼è®¾ç½®
     public ToggleButton otherButton;
     public float simultaneityThreshold = 1f;
     public float autoResetTime = 1.0f;
 
 
-    //Í¨ÓÃÄ£Ê½
+    //é€šç”¨æ¨¡å¼
     public MovingPlatform[] platformsToControl;
 
-    //ÊÓ¾õ·´À¡
+    //è§†è§‰åé¦ˆ
     public Sprite pressedSprite;
     public Sprite unpressedSprite;
     public SpriteRenderer sr;
 
     public bool isPressed = false;
-    public float lastPressTime = -1f;
-    private float lastHitTime = -1f;
+    public float lastPressTime = -1f;// åŒæŒ‰é’®æ¨¡å¼çš„æ—¶é—´æ£€æŸ¥
+    private float lastHitRegisterTime = -1f;// ç”¨äºå†·å´æ—¶é—´æ£€æŸ¥
 
-    private float pressCooldown = 0.5f;//Á½¸öÄ£Ê½¶¼Ê¹ÓÃ´ËÀäÈ´Ê±¼ä
+    private float pressCooldown = 0.5f;//ä¸¤ä¸ªæ¨¡å¼éƒ½ä½¿ç”¨æ­¤å†·å´æ—¶é—´
+
+    
+    void UpdateSprite()//æŒ‰é’®çš„è§†è§‰è¡¨ç°
+    {
+        if (sr != null && pressedSprite != null && unpressedSprite != null)
+        {
+            sr.sprite = isPressed ? pressedSprite : unpressedSprite;
+        }
+    }
 
 
 
 
     void Start()
     {
-        sr = GetComponent<SpriteRenderer>();
-        if (sr != null && unpressedSprite != null)
-        {
-            sr.sprite = unpressedSprite;
-        }
+        sr= GetComponent<SpriteRenderer>();
+        UpdateSprite(); // åˆå§‹åŒ–SpriteçŠ¶æ€
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        //¼ì²éÀäÈ´Ê±¼ä
-        if (Time.time < lastPressTime + pressCooldown)
+        //æ£€æŸ¥å†·å´æ—¶é—´
+        if(Time.time < lastHitRegisterTime + pressCooldown)
         {
             return;
         }
 
-        //¼ì²éÍæ¼ÒÊÇ·ñÅöµ½
-        bool hit = false;
-        if (collision.gameObject.CompareTag("Player"))
+        //æ£€æŸ¥ç©å®¶æ˜¯å¦ç¢°åˆ°
+        
+        if(collision.gameObject.CompareTag("Player"))
         {
-
-            //foreach(ContactPoint2D contact in collision.contacts)//´ÓÉÏÃæ²È
+            bool hit = true;
+            //foreach(ContactPoint2D contact in collision.contacts)//ä»ä¸Šé¢è¸©
             //{
 
             //}
             hit = true;
 
-            if (hit)
+            if(hit)
             {
-                lastPressTime = Time.time;//ÖØÖÃÀäÈ´¼ÆÊ±
+                lastHitRegisterTime = Time.time;//é‡ç½®å†·å´è®¡æ—¶
 
 
-                // ¸ù¾İÄ£Ê½µ÷ÓÃ²»Í¬µÄ°´ÏÂÂß¼­
+                // æ ¹æ®æ¨¡å¼è°ƒç”¨ä¸åŒçš„æŒ‰ä¸‹é€»è¾‘
                 if (requiresOtherButton)
                 {
-                    // Èç¹ûÒÑ¾­ÊÇ°´ÏÂ×´Ì¬£¨ÕıÔÚµÈ´ıÁíÒ»¸ö°´Å¥£©£¬¾Í²»ÒªÖØ¸´´¥·¢
+                    // å¦‚æœå·²ç»æ˜¯æŒ‰ä¸‹çŠ¶æ€ï¼ˆæ­£åœ¨ç­‰å¾…å¦ä¸€ä¸ªæŒ‰é’®ï¼‰ï¼Œå°±ä¸è¦é‡å¤è§¦å‘
                     if (isPressed) return;
                     PressButton_Dual();
                 }
@@ -75,22 +81,18 @@ public class ToggleButton : MonoBehaviour
                 }
 
 
-
+                
             }
         }
     }
 
-    void TogglePlatforms()//µ¥°´Å¥
+    void TogglePlatforms()//å•æŒ‰é’®
     {
-        isPressed = !isPressed;//ÇĞ»»×´Ì¬
+        isPressed = !isPressed;//åˆ‡æ¢çŠ¶æ€
 
-        //ÇĞ»»sprite
-        if (sr != null && pressedSprite != null && unpressedSprite != null)
-        {
-            sr.sprite = isPressed ? pressedSprite : unpressedSprite;
-        }
+        UpdateSprite(); // æ›´æ–°è§†è§‰
 
-        foreach (MovingPlatform platform in platformsToControl)
+        foreach (MovingPlatform platform in platformsToControl)//ç§»åŠ¨å¹³å°
         {
             if (platform != null)
             {
@@ -100,67 +102,67 @@ public class ToggleButton : MonoBehaviour
     }
 
 
-    void PressButton_Dual()//Ë«°´Å¥
+    void PressButton_Dual()//åŒæŒ‰é’®
     {
         isPressed = true;
-        lastPressTime = Time.time;
-        isPressed = !isPressed;//ÇĞ»»×´Ì¬
+        lastPressTime = Time.time;//è®°å½•å½“å‰æŒ‰ä¸‹çš„æ—¶é—´
 
-        //ÇĞ»»sprite//UpdateSprite();
-        if (sr != null && pressedSprite != null && unpressedSprite != null)
-        {
-            sr.sprite = isPressed ? pressedSprite : unpressedSprite;
-        }
+        UpdateSprite();
 
 
-        // Æô¶¯×Ô¶¯ÖØÖÃ¼ÆÊ±Æ÷
+        // å¯åŠ¨è‡ªåŠ¨é‡ç½®è®¡æ—¶å™¨
+        // (å…ˆå–æ¶ˆå·²æœ‰çš„ï¼Œé˜²æ­¢ç©å®¶å¿«é€Ÿè¿è¸©å¯¼è‡´Invokeæ··ä¹±)
+        CancelInvoke("ResetButton");
         Invoke("ResetButton", autoResetTime);
 
-        // ¼ì²éÁíÒ»¸ö°´Å¥µÄ×´Ì¬
+        // æ£€æŸ¥å¦ä¸€ä¸ªæŒ‰é’®çš„çŠ¶æ€
         if (otherButton != null && otherButton.isPressed)
         {
-            // ¼ì²éÊ±¼ä²î
+            // æ£€æŸ¥æ—¶é—´å·®
             if (Mathf.Abs(this.lastPressTime - otherButton.lastPressTime) <= simultaneityThreshold)
             {
-                // ³É¹¦£¡
-                Debug.Log("Í¬Ê±°´ÏÂ³É¹¦!");
+                // æˆåŠŸï¼
+                Debug.Log("åŒæ—¶æŒ‰ä¸‹æˆåŠŸ!");
 
-                // ´¥·¢Æ½Ì¨£¨Á½¸ö°´Å¥µÄ£©
-                TriggerPlatforms(true);
+                // è§¦å‘å¹³å°ï¼ˆåŒ…æ‹¬å¯¹æ–¹çš„å¹³å°ï¼‰
+               TriggerPlatforms(true);
+                //foreach (MovingPlatform platform in platformsToControl)//ç§»åŠ¨å¹³å°
+                //{
+                //    if (platform != null)
+                //    {
+                //        platform.ToggleTarget();
+                //    }
+                //}
 
-                // Á¢¼´ÖØÖÃÁ½¸ö°´Å¥
+                // ç«‹å³é‡ç½®ä¸¤ä¸ªæŒ‰é’®
                 this.ResetButton();
                 otherButton.ResetButton();
             }
         }
     }
 
-
-    // ÖØÖÃ°´Å¥£¨Ë«°´Å¥Âß¼­
+    
+    // é‡ç½®æŒ‰é’®ï¼ˆåŒæŒ‰é’®é€»è¾‘
     public void ResetButton()
     {
-        // Í£Ö¹ÈÎºÎ´ı´¦ÀíµÄ "ResetButton" µ÷ÓÃ
+        // åœæ­¢ä»»ä½•å¾…å¤„ç†çš„ "ResetButton" è°ƒç”¨
         CancelInvoke("ResetButton");
 
         isPressed = false;
         lastPressTime = -1f;
-        isPressed = !isPressed;//ÇĞ»»×´Ì¬
 
-        //ÇĞ»»sprite
-        if (sr != null && pressedSprite != null && unpressedSprite != null)
-        {
-            sr.sprite = isPressed ? pressedSprite : unpressedSprite;
-        }
+        
+        UpdateSprite();
     }
 
 
-    /// <summary>
-    /// ÕæÕı´¥·¢Æ½Ì¨ÒÆ¶¯µÄ·½·¨
-    /// </summary>
-    /// <param name="triggerBoth">ÊÇ·ñÒ²´¥·¢ otherButton ÁĞ±íÖĞµÄÆ½Ì¨</param>
+    
+    // åŒæŒ‰é’®è§¦å‘å¹³å°ç§»åŠ¨
+    
+    /// <param name="triggerBoth">æ˜¯å¦ä¹Ÿè§¦å‘ otherButton åˆ—è¡¨ä¸­çš„å¹³å°</param>
     void TriggerPlatforms(bool triggerBoth)
     {
-        // ×ÜÊÇ´¥·¢×Ô¼ºµÄÆ½Ì¨
+        // è§¦å‘è‡ªå·±çš„å¹³å°
         foreach (MovingPlatform platform in platformsToControl)
         {
             if (platform != null)
@@ -169,7 +171,7 @@ public class ToggleButton : MonoBehaviour
             }
         }
 
-        // Èç¹ûÊÇË«°´Å¥Ä£Ê½³É¹¦£¬Ò²´¥·¢ÁíÒ»¸ö°´Å¥µÄÆ½Ì¨
+        // å¦‚æœæ˜¯åŒæŒ‰é’®æ¨¡å¼æˆåŠŸï¼Œä¹Ÿè§¦å‘å¦ä¸€ä¸ªæŒ‰é’®çš„å¹³å°
         if (triggerBoth && otherButton != null)
         {
             foreach (MovingPlatform platform in otherButton.platformsToControl)
@@ -182,5 +184,7 @@ public class ToggleButton : MonoBehaviour
         }
     }
 
-
+   
 }
+
+
