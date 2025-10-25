@@ -9,7 +9,7 @@ public class ToggleButton : MonoBehaviour
 
     //双按钮模式设置
     public ToggleButton otherButton;
-    public float simultaneityThreshold = 0.5f;
+    public float simultaneityThreshold = 1f;
     public float autoResetTime = 1.0f;
 
 
@@ -26,14 +26,14 @@ public class ToggleButton : MonoBehaviour
     private float lastHitTime = -1f;
 
     private float pressCooldown = 0.5f;//两个模式都使用此冷却时间
-    
+
 
 
 
     void Start()
     {
-        sr= GetComponent<SpriteRenderer>();
-        if(sr != null&&unpressedSprite!=null )
+        sr = GetComponent<SpriteRenderer>();
+        if (sr != null && unpressedSprite != null)
         {
             sr.sprite = unpressedSprite;
         }
@@ -41,23 +41,23 @@ public class ToggleButton : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         //检查冷却时间
-        if(Time.time<lastPressTime+pressCooldown)
+        if (Time.time < lastPressTime + pressCooldown)
         {
             return;
         }
 
         //检查玩家是否碰到
         bool hit = false;
-        if(collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player"))
         {
-            
+
             //foreach(ContactPoint2D contact in collision.contacts)//从上面踩
             //{
 
             //}
             hit = true;
 
-            if(hit)
+            if (hit)
             {
                 lastPressTime = Time.time;//重置冷却计时
 
@@ -75,7 +75,7 @@ public class ToggleButton : MonoBehaviour
                 }
 
 
-                
+
             }
         }
     }
@@ -83,11 +83,11 @@ public class ToggleButton : MonoBehaviour
     void TogglePlatforms()//单按钮
     {
         isPressed = !isPressed;//切换状态
-        
+
         //切换sprite
-        if(sr!=null&&pressedSprite!=null&&unpressedSprite!=null)
+        if (sr != null && pressedSprite != null && unpressedSprite != null)
         {
-            sr.sprite=isPressed?pressedSprite:unpressedSprite;
+            sr.sprite = isPressed ? pressedSprite : unpressedSprite;
         }
 
         foreach (MovingPlatform platform in platformsToControl)
@@ -111,7 +111,7 @@ public class ToggleButton : MonoBehaviour
         {
             sr.sprite = isPressed ? pressedSprite : unpressedSprite;
         }
-        
+
 
         // 启动自动重置计时器
         Invoke("ResetButton", autoResetTime);
@@ -135,7 +135,7 @@ public class ToggleButton : MonoBehaviour
         }
     }
 
-    
+
     // 重置按钮（双按钮逻辑
     public void ResetButton()
     {
@@ -182,11 +182,5 @@ public class ToggleButton : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        // 不再需要
-    }
+
 }
-
-
