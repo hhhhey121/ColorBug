@@ -7,6 +7,7 @@ TagManager:
   - Trap
   - Coin
   - Teleporter
+  - Bounds
   layers:
   - Default
   - TransparentFX

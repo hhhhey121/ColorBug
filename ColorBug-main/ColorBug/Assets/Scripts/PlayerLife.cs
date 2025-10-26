@@ -1,13 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+// using UnityEngine.SceneManagement;
 
 public class PlayerLife : MonoBehaviour
 {
+   
     public GameObject playerPS; // 粒子特效
+
     private Animator anim;
     private Rigidbody2D rb;
-    public bool isDead = false;
+    public bool isDead = false; // 状态，防止重复死亡
+
+    // 重生管理器的引用
     private RespawnManager respawnManager;
 
     void Start()
@@ -15,6 +20,7 @@ public class PlayerLife : MonoBehaviour
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
 
+        // 在游戏开始时自动查找管理器
         respawnManager = FindObjectOfType<RespawnManager>();
         if (respawnManager == null)
         {
@@ -24,7 +30,7 @@ public class PlayerLife : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (isDead) return;
+        if (isDead) return; // 如果已经死了，就不要再触发了
 
         if (collision.gameObject.CompareTag("Trap"))
         {
@@ -34,41 +40,54 @@ public class PlayerLife : MonoBehaviour
 
     private void Death()
     {
-        isDead = true;
-        rb.bodyType = RigidbodyType2D.Static;
-        anim.SetTrigger("death"); // 播放死亡动画
+        isDead = true; // 标记为死亡
+        rb.bodyType = RigidbodyType2D.Static; // 保持你原来的逻辑：身体静止
+        anim.SetTrigger("death"); // 保持你原来的逻辑：播放死亡动画
 
+       
         if (playerPS != null)
         {
+            // 在角色位置生成 "playerPS" 特效
             GameObject deathParticles = Instantiate(playerPS, transform.position, Quaternion.identity);
+
+            // 1秒后 *只销毁这个新生成的特效*
+            // (你原来的代码 'Destroy(playerPS, 1f)' 会试图销毁预制体，是错误的)
             Destroy(deathParticles, 1f);
         }
+        // -----------------------------------------------------
 
-        // 隐藏 Sprite (使用 GetComponentInChildren)
+        //通知管理器，并隐藏自己 (我们不销毁角色)
+
+        // 隐藏角色的 Sprite
         var sprite = GetComponentInChildren<SpriteRenderer>();
         if (sprite != null) sprite.enabled = false;
 
+        // 禁用碰撞体
         var collider = GetComponent<Collider2D>();
         if (collider != null) collider.enabled = false;
 
+
+        // 通知管理器“我死了”
         if (respawnManager != null)
         {
             respawnManager.HandlePlayerDeath(this);
         }
     }
 
+
     // 重生方法 (由 RespawnManager 调用)
     public void Respawn(Vector3 respawnPosition)
     {
-        // 这里的 respawnPosition 已经是被 RespawnManager 修正过Z轴的
-        Debug.Log(gameObject.name + " 在 " + respawnPosition + " (Z轴已修正) 重生。");
+        Debug.Log(gameObject.name + " 在 " + respawnPosition + " 重生。");
 
+        // 移动到重生点
         transform.position = respawnPosition;
 
+        // 恢复物理状态
         rb.bodyType = RigidbodyType2D.Dynamic;
-        rb.velocity = Vector2.zero;
+        rb.velocity = Vector2.zero; // 重置速度
 
-        // 恢复 Sprite
+        // 恢复视觉
         var sprite = GetComponentInChildren<SpriteRenderer>();
         if (sprite != null) sprite.enabled = true;
 
@@ -76,16 +95,8 @@ public class PlayerLife : MonoBehaviour
         var collider = GetComponent<Collider2D>();
         if (collider != null) collider.enabled = true;
 
+        // 重置状态
         isDead = false;
 
-        // -----------------------------------------------------
-        // !!! 【关键修复 2】 !!!
-        // 重置动画状态机，防止卡在"Die"动画的透明帧
-        // 你需要在你的 Animator (动画控制器) 中：
-        // 1. 创建一个新的 Trigger (触发器)，命名为 "Respawn"
-        // 2. 创建一个从 "Die" 状态到 "Idle" (或你的默认) 状态的过渡 (Transition)
-        // 3. 把这个过渡的条件 (Condition) 设置为 "Respawn" 触发器
-        // -----------------------------------------------------
-        anim.SetTrigger("Respawn");
     }
 }

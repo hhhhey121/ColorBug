@@ -155,8 +155,6 @@ MonoBehaviour:
   maxJumpCountCombined: 1
   maxJumpCountSplit: 2
   isJump: 0
-  mainCamera: {fileID: 0}
-  screenEdgePadding: 0.5
 --- !u!70 &6613067260478662001
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -202,7 +200,7 @@ Animator:
   m_GameObject: {fileID: 6560795049023389665}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 2fe2bd23fca52cf45b48f51dc46d9e68, type: 2}
+  m_Controller: {fileID: 9100000, guid: 2f615e2b24ebfd64e965c4b81a788773, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
