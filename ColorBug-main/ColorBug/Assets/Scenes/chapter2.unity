@@ -9225,6 +9225,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 487306130}
     - target: {fileID: 4659153844309387676, guid: fb0ff0e6b02e9bd49badd334a485d6ad, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 341185558, guid: cff9b9697805cad428a01ad2587515d4, type: 3}
+    - target: {fileID: 4659153844309387676, guid: fb0ff0e6b02e9bd49badd334a485d6ad, type: 3}
       propertyPath: m_SortingOrder
       value: 3
       objectReference: {fileID: 0}
@@ -9395,6 +9399,10 @@ PrefabInstance:
       propertyPath: coinText
       value: 
       objectReference: {fileID: 487306130}
+    - target: {fileID: 4840148948408987142, guid: c56052f74067b9c4984dc3257eaa85d5, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -1039042058, guid: fe17c09b6106ae94396cf8d0aedbbd88, type: 3}
     - target: {fileID: 4840148948408987142, guid: c56052f74067b9c4984dc3257eaa85d5, type: 3}
       propertyPath: m_SortingOrder
       value: 3
