@@ -5540,7 +5540,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1205016640}
   - {fileID: 68742705}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5932,15 +5931,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2320701633771344990, guid: e73cfe42b0c518340aa7ff2c5051c2b0, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.946087
+      value: 0.22592558
+      objectReference: {fileID: 0}
+    - target: {fileID: 2320701633771344990, guid: e73cfe42b0c518340aa7ff2c5051c2b0, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.4790278
       objectReference: {fileID: 0}
     - target: {fileID: 2320701633771344990, guid: e73cfe42b0c518340aa7ff2c5051c2b0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.4738
+      value: 2.996
       objectReference: {fileID: 0}
     - target: {fileID: 2320701633771344990, guid: e73cfe42b0c518340aa7ff2c5051c2b0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.28
+      value: 0.067
       objectReference: {fileID: 0}
     - target: {fileID: 2979332511154793219, guid: e73cfe42b0c518340aa7ff2c5051c2b0, type: 3}
       propertyPath: m_LocalScale.x
@@ -6541,11 +6544,11 @@ Transform:
   m_GameObject: {fileID: 1205016639}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.615738, y: 1.3146293, z: 0.11018299}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0.015, y: 0.592, z: 1.0716982}
+  m_LocalScale: {x: 0.5604675, y: 0.33333334, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 645391288}
+  m_Father: {fileID: 483726319}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &1205016641
 BoxCollider2D:
@@ -6879,6 +6882,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2979332511154793219, guid: e73cfe42b0c518340aa7ff2c5051c2b0, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1411932319}
+    - targetCorrespondingSourceObject: {fileID: 2979332511154793219, guid: e73cfe42b0c518340aa7ff2c5051c2b0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1205016640}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e73cfe42b0c518340aa7ff2c5051c2b0, type: 3}
 --- !u!4 &1265785646 stripped
