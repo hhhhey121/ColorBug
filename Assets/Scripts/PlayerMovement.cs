@@ -8,9 +8,6 @@ public class PlayerMovement : MonoBehaviour
 
     Animator anim;
 
-    // 【新增】引用 PlayerLife 脚本
-    private PlayerLife playerLife;
-
     public float playerSpeed = 5f;
     [Range(1, 10)]
     public float jumpSpeed = 5f;
@@ -28,7 +25,7 @@ public class PlayerMovement : MonoBehaviour
     public int maxJumpCountCombined = 1;
     public int maxJumpCountSplit = 2;
     private int jumpCount = 2;// 当前跳跃次数
-    //public int jumpCount = 2;//跳跃次数
+    //public int jumpCount = 2;//做
     //public int maxJumpCount = 2;
 
     private bool wasGround;
@@ -45,10 +42,6 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();//初始化获取组件
         anim = GetComponent<Animator>();//初始化动画
 
-        // 【新增】获取挂在同一物体上的 PlayerLife 脚本
-        playerLife = GetComponent<PlayerLife>();
-        
-
         wasGround = true;
 
         //初始时检查状态
@@ -59,15 +52,6 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()//每渲染一帧就调用一下(input类放置
     {
-        // 如果 PlayerLife 存在且角色已死亡，则不处理任何新输入
-        if (playerLife != null && playerLife.isDead)
-        {
-            moveX = 0; // 确保移动输入为0
-            moveJump = false; // 确保跳跃输入为 false
-            isJump = false; // 确保不会触发跳跃
-            return; // 退出 Update
-        }
-
         CheckSeparation();//每一帧都检查是否分离
 
         moveX = Input.GetAxisRaw("Horizontal");//获取A D -1 1
@@ -102,12 +86,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()//物理类放置 固定数值
     {
-        // 如果 PlayerLife 存在且角色已死亡，则不执行任何物理更新
-        if (playerLife != null && playerLife.isDead)
-        {
-            return; // 退出 FixedUpdate，不调用 Move() 和 Jump()
-        }
-
         // 记录上一帧的地面状态
         wasGround = isGround;
         
