@@ -8,6 +8,8 @@ TagManager:
   - Coin
   - Teleporter
   - Bounds
+  - LethalLaser
+  - BlueSquare
   layers:
   - Default
   - TransparentFX
@@ -21,8 +23,8 @@ TagManager:
   - 
   - StaticBackground
   - Foreground
-  - 
-  - 
+  - Laser
+  - BlueSquare
   - 
   - 
   - 
