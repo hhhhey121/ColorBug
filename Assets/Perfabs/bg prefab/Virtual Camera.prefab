@@ -65,8 +65,8 @@ MonoBehaviour:
   m_YDamping: 1
   m_ZDamping: 1
   m_TargetMovementOnly: 1
-  m_ScreenX: 0.133
-  m_ScreenY: 0.603
+  m_ScreenX: 0.5
+  m_ScreenY: 0.5
   m_CameraDistance: 10
   m_DeadZoneWidth: 0.23
   m_DeadZoneHeight: 0.75
@@ -176,7 +176,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_ConfineMode: 0
   m_BoundingVolume: {fileID: 0}
-  m_BoundingShape2D: {fileID: 0}
+  m_BoundingShape2D: {fileID: 3225105265882206538, guid: a38ac04d28881734898a9b928a25f0d1, type: 3}
   m_ConfineScreenEdges: 1
   m_Damping: 0
 --- !u!114 &2880484151952297354
