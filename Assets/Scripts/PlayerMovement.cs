@@ -37,6 +37,9 @@ public class PlayerMovement : MonoBehaviour
     public bool isJump;//传递作用，表跳跃状态
 
 
+    private float facingDirection = 1f;
+
+
     void Start()//开始时调用一下
     {
         rb = GetComponent<Rigidbody2D>();//初始化获取组件
@@ -121,8 +124,20 @@ public class PlayerMovement : MonoBehaviour
 
         if (moveX != 0)//在按键
         {
-            transform.localScale = new Vector3(moveX, 1, 1);
+            // 【修改】更新朝向
+            //facingDirection = Mathf.Sign(moveX);
+           
+            //transform.localScale = new Vector3(moveX, 1, 1);
+
+            // 使用 Mathf.Sign 来确保 scale.x 总是 1 或 -1, 永远不会是 0
+            transform.localScale = new Vector3(Mathf.Sign(moveX), 1, 1);
         }
+    }
+
+    // 添加一个公共方法，让 PlayerLaserAbility 脚本可以读取朝向
+    public float GetFacingDirection()
+    {
+        return transform.localScale.x;
     }
 
     private void Jump()
