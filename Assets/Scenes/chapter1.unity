@@ -2860,7 +2860,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   platformsToControl:
   - {fileID: 544782015}
-  pressedSprite: {fileID: 21300000, guid: 50feb3f5da3bed7488dbb3e1ce9804d0, type: 3}
+  pressedSprite: {fileID: 21300000, guid: a00f68d2cfefe3340a40451730bd77fc, type: 3}
   unpressedSprite: {fileID: 0}
   sr: {fileID: 0}
 --- !u!1 &544782010 stripped
@@ -3048,7 +3048,7 @@ MonoBehaviour:
   simultaneityThreshold: 0.5
   autoResetTime: 1
   platformsToControl: []
-  pressedSprite: {fileID: 21300000, guid: a19f71ce14ad8484bb628c3f5cbe45d5, type: 3}
+  pressedSprite: {fileID: 21300000, guid: b0f59ddd09104e744a1ff70f98ae51c8, type: 3}
   unpressedSprite: {fileID: 21300000, guid: 5dd535acfaa8070499d88358310fb16c, type: 3}
   sr: {fileID: 785254867}
   isPressed: 0
@@ -3201,7 +3201,7 @@ PrefabInstance:
     - target: {fileID: 1004122819815148439, guid: a688a9f9dc0d84d41a02f5cfaa97a993, type: 3}
       propertyPath: pressedSprite
       value: 
-      objectReference: {fileID: 21300000, guid: a19f71ce14ad8484bb628c3f5cbe45d5, type: 3}
+      objectReference: {fileID: 21300000, guid: b0f59ddd09104e744a1ff70f98ae51c8, type: 3}
     - target: {fileID: 1004122819815148439, guid: a688a9f9dc0d84d41a02f5cfaa97a993, type: 3}
       propertyPath: unpressedSprite
       value: 
@@ -3409,7 +3409,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   platformsToControl:
   - {fileID: 829521749}
-  pressedSprite: {fileID: 21300000, guid: 50feb3f5da3bed7488dbb3e1ce9804d0, type: 3}
+  pressedSprite: {fileID: 21300000, guid: a00f68d2cfefe3340a40451730bd77fc, type: 3}
   unpressedSprite: {fileID: 0}
   sr: {fileID: 0}
 --- !u!4 &1063298449 stripped
@@ -4707,7 +4707,7 @@ PrefabInstance:
     - target: {fileID: 1004122819815148439, guid: a688a9f9dc0d84d41a02f5cfaa97a993, type: 3}
       propertyPath: pressedSprite
       value: 
-      objectReference: {fileID: 21300000, guid: b16e00d15f24fff47b571b12c8727f81, type: 3}
+      objectReference: {fileID: 21300000, guid: ed25766437e0dc4439904795bfdbb253, type: 3}
     - target: {fileID: 1004122819815148439, guid: a688a9f9dc0d84d41a02f5cfaa97a993, type: 3}
       propertyPath: unpressedSprite
       value: 
@@ -5468,7 +5468,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1012476711710142713, guid: 3880964592650b34bab92a8e03538120, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.5861073
+      value: 1.5893879
       objectReference: {fileID: 0}
     - target: {fileID: 1012476711710142713, guid: 3880964592650b34bab92a8e03538120, type: 3}
       propertyPath: m_LocalPosition.y
@@ -5790,11 +5790,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7414700835763010930, guid: 2706a84366046d74b85f019535b388ac, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.6471696
+      value: 2.651639
       objectReference: {fileID: 0}
     - target: {fileID: 7414700835763010930, guid: 2706a84366046d74b85f019535b388ac, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.034154415
+      value: 0.034156322
       objectReference: {fileID: 0}
     - target: {fileID: 7414700835763010930, guid: 2706a84366046d74b85f019535b388ac, type: 3}
       propertyPath: m_LocalPosition.z
