@@ -98,7 +98,7 @@ Animator:
   m_GameObject: {fileID: 634896498721045598}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 3c9ef86e2344e0744b96834b93a20505, type: 2}
+  m_Controller: {fileID: 9100000, guid: f482cb9e7f30e8a458be16e16d91913d, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -121,6 +121,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6a10f9fc4450a34683f91dbb5216387, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  requiredCoins: 1
+  lockedSound: {fileID: 0}
 --- !u!61 &1723670697410524167
 BoxCollider2D:
   m_ObjectHideFlags: 0
