@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -7,11 +7,11 @@ public class Finish : MonoBehaviour
 {
     private AudioSource finishSound;
 
-    // ¡¾ĞÂÔö¡¿ÔÚUnityµÄInspectorÖĞÉèÖÃ±¾¹ØĞèÒª¶àÉÙ½ğ±Ò
-    // ±ÈÈç£ºµÚÒ»¹ØÉèÎª 1£¬Ö®ºóµÄ¹Ø¿¨ÉèÎª 3
+    // ã€æ–°å¢ã€‘åœ¨Unityçš„Inspectorä¸­è®¾ç½®æœ¬å…³éœ€è¦å¤šå°‘é‡‘å¸
+    // æ¯”å¦‚ï¼šç¬¬ä¸€å…³è®¾ä¸º 1ï¼Œä¹‹åçš„å…³å¡è®¾ä¸º 3
     public int requiredCoins = 1;
 
-    // ¡¾ĞÂÔö¡¿(¿ÉÑ¡) ½ğ±Ò²»¹»Ê±²¥·ÅµÄÒôĞ§
+    // ã€æ–°å¢ã€‘(å¯é€‰) é‡‘å¸ä¸å¤Ÿæ—¶æ’­æ”¾çš„éŸ³æ•ˆ
     public AudioClip lockedSound;
 
     void Start()
@@ -21,39 +21,69 @@ public class Finish : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // ¡¾½¨Òé¡¿×îºÃÊ¹ÓÃ±êÇ©(Tag)À´¼ì²éÍæ¼Ò
+        // ã€å»ºè®®ã€‘æœ€å¥½ä½¿ç”¨æ ‡ç­¾(Tag)æ¥æ£€æŸ¥ç©å®¶
         if (collision.gameObject.CompareTag("Player"))
         {
-            // 1. ³¢ÊÔ´ÓÅö×²µ½µÄÍæ¼Ò(collision.gameObject)ÉíÉÏ»ñÈ¡ Coin ½Å±¾
+            // 1. å°è¯•ä»ç¢°æ’åˆ°çš„ç©å®¶(collision.gameObject)èº«ä¸Šè·å– Coin è„šæœ¬
             Coin playerCoinCollector = collision.gameObject.GetComponent<Coin>();
+            // ã€æ–°å¢ã€‘è·å– PlayerMovement è„šæœ¬
+Â  Â  Â  Â  Â  Â  PlayerMovement playerMovement = collision.gameObject.GetComponent<PlayerMovement>();
 
-            if (playerCoinCollector != null)
+            if (playerCoinCollector != null && playerMovement != null)
             {
-                // 2. ¼ì²é½ğ±ÒÊıÁ¿ÊÇ·ñ´ï±ê
-                if (playerCoinCollector.GetCoinCount() >= requiredCoins)
+                bool coinsOK = playerCoinCollector.GetCoinCount() >= requiredCoins;
+
+                // ã€æ–°é€»è¾‘ã€‘"åˆå¹¶" æ„å‘³ç€ "isSeparated" ä¸º false
+                bool mergedOK = !playerMovement.GetIsSeparated();
+
+                if (coinsOK && mergedOK)
                 {
-                    // ½ğ±Ò×ã¹»£¬Í¨¹Ø
-                    finishSound.Play();
+Â  Â  Â  Â  Â  Â  Â  Â  Â  Â  // æ¡ä»¶ 1: é‡‘å¸è¶³å¤Ÿ
+                    // æ¡ä»¶ 2: è§’è‰²å·²åˆå¹¶
+Â  Â  Â  Â  Â  Â  Â  Â  Â  Â  finishSound.Play();
                     finishLevel();
                 }
-                else
+                else if (!coinsOK)
                 {
-                    // ½ğ±Ò²»¹»
-                    Debug.Log("½ğ±Ò²»×ã! ĞèÒª: " + requiredCoins + ", µ±Ç°: " + playerCoinCollector.GetCoinCount());
+                    // é‡‘å¸ä¸å¤Ÿ
+                    Debug.Log("é‡‘å¸ä¸è¶³! éœ€è¦: " + requiredCoins + ", å½“å‰: " + playerCoinCollector.GetCoinCount());
                     if (lockedSound != null && !finishSound.isPlaying)
                     {
                         finishSound.PlayOneShot(lockedSound);
+                    }
+                    else if (!mergedOK)
+                    {
+                        // ã€æ–°å¢ã€‘é‡‘å¸å¤Ÿäº†ï¼Œä½†è§’è‰²æœªåˆå¹¶
+                        Debug.Log("è§’è‰²æœªåˆå¹¶!");
+                        PlayLockedSound();
                     }
                 }
             }
             else
             {
-                Debug.LogError("ÔÚÍæ¼ÒÉíÉÏÃ»ÓĞÕÒµ½ Coin.cs ½Å±¾!");
+                // è„šæœ¬ç¼ºå¤±çš„é”™è¯¯å¤„ç†
+Â  Â  Â  Â  Â  Â  Â  Â  if (playerCoinCollector == null)
+                {
+                    Debug.LogError("åœ¨ç©å®¶èº«ä¸Šæ²¡æœ‰æ‰¾åˆ° Coin.cs è„šæœ¬!");
+                }
+                if (playerMovement == null)
+                {
+                    Debug.LogError("åœ¨ç©å®¶èº«ä¸Šæ²¡æœ‰æ‰¾åˆ° PlayerMovement.cs è„šæœ¬!");
+                }
+                
             }
         }
     }
+    // (è¾…åŠ©æ–¹æ³•ï¼Œé¿å…é‡å¤ä»£ç )
+    private void PlayLockedSound()
+    {
+        if (lockedSound != null && !finishSound.isPlaying)
+        {
+            finishSound.PlayOneShot(lockedSound);
+        }
+    }
 
-    private void finishLevel()//¹Ø¿¨½áÊø
+    private void finishLevel()//å…³å¡ç»“æŸ
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
