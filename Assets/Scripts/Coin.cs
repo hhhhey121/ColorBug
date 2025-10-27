@@ -19,7 +19,7 @@ public class Coin : MonoBehaviour
             // 确保 coinText 已经被拖拽赋值
             if (coinText != null)
             {
-                coinText.text = "Coins:" + coins;
+                coinText.text = "" + coins;
             }
         }
     }
