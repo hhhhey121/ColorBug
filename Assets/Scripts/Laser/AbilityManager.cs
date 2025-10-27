@@ -4,7 +4,7 @@ public class AbilityManager : MonoBehaviour
 {
     public static AbilityManager Instance; // 单例
 
-    // 【重要】在Inspector中，把你的"角色A"拖到这里
+    // 在Inspector中，把你的"角色A"拖到这里
     public PlayerLaserAbility playerA_Ability;
 
     private bool abilityUnlocked = false;
@@ -18,14 +18,17 @@ public class AbilityManager : MonoBehaviour
     // PlayerLife 脚本将在被激光击中时调用这个
     public void OnPlayerKilledByLaser()
     {
-        if (abilityUnlocked) return; // 已经解锁了，不需要重复执行
+        if (abilityUnlocked) return;
 
         abilityUnlocked = true;
 
         if (playerA_Ability != null)
         {
-            // 通知角色A的脚本：你解锁了！
-            playerA_Ability.UnlockAndGiveFirstCharge();
+            // -----------------------------------------------------
+            // !!! 【关键修复】 !!!
+            // (调用新重命名的方法)
+            playerA_Ability.UnlockAbility();
+            // -----------------------------------------------------
         }
     }
 }
