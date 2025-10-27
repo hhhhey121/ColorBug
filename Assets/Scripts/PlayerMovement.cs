@@ -55,17 +55,6 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()//每渲染一帧就调用一下(input类放置
     {
-        CheckSeparation();//每一帧都检查是否分离
-
-        // 在检测跳跃输入前，先检查是否在地面上。
-        // 如果在地面上，就重置跳跃次数
-        // 解决被压住时跳跃次数无法刷新的BUG
-        if (isGround)
-        {
-            jumpCount = isSeparated ? maxJumpCountSplit : maxJumpCountCombined;
-        }
-
-
         moveX = Input.GetAxisRaw("Horizontal");//获取A D -1 1
         moveJump = Input.GetButtonDown("Jump");//获取W
 
@@ -103,7 +92,10 @@ public class PlayerMovement : MonoBehaviour
         
         isGround = Physics2D.OverlapCircle(groundCheck.position, 0.2f, ground);
 
-        if (isGround && !wasGround)
+        // 状态检测
+        CheckSeparation();
+
+        if (isGround&& rb.velocity.y <= 0.01f)
         {
             //jumpCount = maxJumpCount;
             //落地后根据当前是否分离来重置跳跃次数

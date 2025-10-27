@@ -47,6 +47,7 @@ GameObject:
   - component: {fileID: 2113242686787868760}
   - component: {fileID: 6776098785528682380}
   - component: {fileID: 3661326755876259664}
+  - component: {fileID: -2784349534544121123}
   m_Layer: 6
   m_Name: Player 2
   m_TagString: Player
@@ -161,7 +162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0617b8e9dfe6b947a9defdb65bd7ccb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPS: {fileID: 0}
+  isDead: 0
 --- !u!114 &6417101893644108984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -255,3 +256,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coinText: {fileID: 0}
+--- !u!114 &-2784349534544121123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3450708983522726779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b1de7878be67284e8af11edada9cfc3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doorSound: {fileID: 0}
