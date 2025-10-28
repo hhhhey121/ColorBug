@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,51 +12,51 @@ public class PlayerMovement : MonoBehaviour
     [Range(1, 10)]
     public float jumpSpeed = 5f;
 
-    public bool isGround;//ÒÑ¾­ÔÚµØÃæÉÏ
+    public bool isGround;//å·²ç»åœ¨åœ°é¢ä¸Š
 
-    public Transform groundCheck;//¼ì²âµã
+    public Transform groundCheck;//æ£€æµ‹ç‚¹
 
-    public LayerMask ground;//Í¼²ã
+    public LayerMask ground;//å›¾å±‚
 
-    public Transform otherPlayer;//ÍÏÈëÁíÒ»¸öÍæ¼Ò¶ÔÏó
-    public float sperarationThreshold = 0.1f;//Í¬Ò»´¹Ö±ÏßÅĞ¶¨
+    public Transform otherPlayer;//æ‹–å…¥å¦ä¸€ä¸ªç©å®¶å¯¹è±¡
+    public float sperarationThreshold = 0.1f;//åŒä¸€å‚ç›´çº¿åˆ¤å®š
     private bool isSeparated = false;
 
     public int maxJumpCountCombined = 1;
     public int maxJumpCountSplit = 2;
-    private int jumpCount = 2;// µ±Ç°ÌøÔ¾´ÎÊı
-    //public int jumpCount = 2;//×ö
+    private int jumpCount = 2;// å½“å‰è·³è·ƒæ¬¡æ•°
+    //public int jumpCount = 2;//åš
     //public int maxJumpCount = 2;
 
     private bool wasGround;
 
     private float moveX;
 
-    private bool moveJump;//ÌøÔ¾ÊäÈë
+    private bool moveJump;//è·³è·ƒè¾“å…¥
 
-    public bool isJump;//´«µİ×÷ÓÃ£¬±íÌøÔ¾×´Ì¬
+    public bool isJump;//ä¼ é€’ä½œç”¨ï¼Œè¡¨è·³è·ƒçŠ¶æ€
 
 
     private float facingDirection = 1f;
 
 
-    void Start()//¿ªÊ¼Ê±µ÷ÓÃÒ»ÏÂ
+    void Start()//å¼€å§‹æ—¶è°ƒç”¨ä¸€ä¸‹
     {
-        rb = GetComponent<Rigidbody2D>();//³õÊ¼»¯»ñÈ¡×é¼ş
-        anim = GetComponent<Animator>();//³õÊ¼»¯¶¯»­
+        rb = GetComponent<Rigidbody2D>();//åˆå§‹åŒ–è·å–ç»„ä»¶
+        anim = GetComponent<Animator>();//åˆå§‹åŒ–åŠ¨ç”»
 
         wasGround = true;
 
-        //³õÊ¼Ê±¼ì²é×´Ì¬
+        //åˆå§‹æ—¶æ£€æŸ¥çŠ¶æ€
         CheckSeparation();
-        //¸ù¾İ³õÊ¼×´Ì¬ÉèÖÃÌøÔ¾´ÎÊı
+        //æ ¹æ®åˆå§‹çŠ¶æ€è®¾ç½®è·³è·ƒæ¬¡æ•°
         jumpCount = isSeparated ? maxJumpCountSplit : maxJumpCountCombined;                                                                                                                                                       
     }
 
-    void Update()//Ã¿äÖÈ¾Ò»Ö¡¾Íµ÷ÓÃÒ»ÏÂ(inputÀà·ÅÖÃ
+    void Update()//æ¯æ¸²æŸ“ä¸€å¸§å°±è°ƒç”¨ä¸€ä¸‹(inputç±»æ”¾ç½®
     {
-        moveX = Input.GetAxisRaw("Horizontal");//»ñÈ¡A D -1 1
-        moveJump = Input.GetButtonDown("Jump");//»ñÈ¡W
+        moveX = Input.GetAxisRaw("Horizontal");//è·å–A D -1 1
+        moveJump = Input.GetButtonDown("Jump");//è·å–W
 
         if (moveJump && jumpCount > 0)
         {
@@ -65,7 +65,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    //¼ì²é·½·¨
+    //æ£€æŸ¥æ–¹æ³•
     private void CheckSeparation()
     {
         if(otherPlayer == null) 
@@ -74,10 +74,10 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        //¼ì²éxÖá×ø±ê²îÖµ
+        //æ£€æŸ¥xè½´åæ ‡å·®å€¼
         float distanceX=Mathf.Abs(transform.position.x-otherPlayer.position.x);
 
-        //·ÖÀë¶¨Òå
+        //åˆ†ç¦»å®šä¹‰
         if(distanceX > sperarationThreshold )
         {
             isSeparated=true;
@@ -85,20 +85,20 @@ public class PlayerMovement : MonoBehaviour
         else isSeparated = false;
     }
 
-    private void FixedUpdate()//ÎïÀíÀà·ÅÖÃ ¹Ì¶¨ÊıÖµ
+    private void FixedUpdate()//ç‰©ç†ç±»æ”¾ç½® å›ºå®šæ•°å€¼
     {
-        // ¼ÇÂ¼ÉÏÒ»Ö¡µÄµØÃæ×´Ì¬
+        // è®°å½•ä¸Šä¸€å¸§çš„åœ°é¢çŠ¶æ€
         wasGround = isGround;
         
         isGround = Physics2D.OverlapCircle(groundCheck.position, 0.2f, ground);
 
-        // ×´Ì¬¼ì²â
+        // çŠ¶æ€æ£€æµ‹
         CheckSeparation();
 
         if (isGround&& rb.velocity.y <= 0.01f)
         {
             //jumpCount = maxJumpCount;
-            //ÂäµØºó¸ù¾İµ±Ç°ÊÇ·ñ·ÖÀëÀ´ÖØÖÃÌøÔ¾´ÎÊı
+            //è½åœ°åæ ¹æ®å½“å‰æ˜¯å¦åˆ†ç¦»æ¥é‡ç½®è·³è·ƒæ¬¡æ•°
             jumpCount = isSeparated ? maxJumpCountSplit : maxJumpCountCombined;
         }
 
@@ -109,24 +109,24 @@ public class PlayerMovement : MonoBehaviour
     {
         if(anim != null) 
         {
-        anim.SetFloat("speed", Mathf.Abs(moveX));//¾ø¶ÔÖµ Ïò×óÅÜÊ±xÎª-1Ò²ÉúĞ§
+        anim.SetFloat("speed", Mathf.Abs(moveX));//ç»å¯¹å€¼ å‘å·¦è·‘æ—¶xä¸º-1ä¹Ÿç”Ÿæ•ˆ
         }
 
             rb.velocity = new Vector2(moveX * playerSpeed, rb.velocity.y);
 
-        if (moveX != 0)//ÔÚ°´¼ü
+        if (moveX != 0)//åœ¨æŒ‰é”®
         {
-            // ¡¾ĞŞ¸Ä¡¿¸üĞÂ³¯Ïò
+            // ã€ä¿®æ”¹ã€‘æ›´æ–°æœå‘
             //facingDirection = Mathf.Sign(moveX);
            
             //transform.localScale = new Vector3(moveX, 1, 1);
 
-            // Ê¹ÓÃ Mathf.Sign À´È·±£ scale.x ×ÜÊÇ 1 »ò -1, ÓÀÔ¶²»»áÊÇ 0
+            // ä½¿ç”¨ Mathf.Sign æ¥ç¡®ä¿ scale.x æ€»æ˜¯ 1 æˆ– -1, æ°¸è¿œä¸ä¼šæ˜¯ 0
             transform.localScale = new Vector3(Mathf.Sign(moveX), 1, 1);
         }
     }
 
-    // Ìí¼ÓÒ»¸ö¹«¹²·½·¨£¬ÈÃ PlayerLaserAbility ½Å±¾¿ÉÒÔ¶ÁÈ¡³¯Ïò
+    // æ·»åŠ ä¸€ä¸ªå…¬å…±æ–¹æ³•ï¼Œè®© PlayerLaserAbility è„šæœ¬å¯ä»¥è¯»å–æœå‘
     public float GetFacingDirection()
     {
         return transform.localScale.x;
@@ -141,17 +141,21 @@ public class PlayerMovement : MonoBehaviour
 
         if (isJump)
         {
-            rb.velocity = new Vector2(rb.velocity.x, 0f);//ÔÚÊ©¼ÓÌøÔ¾Á¦Ö®Ç°£¬°ÑYÖáËÙ¶ÈÇåÁã,È·±£Ã¿´ÎÌøÔ¾µÄ¸ß¶È¶¼Ò»ÖÂ¶ş¶ÎÌø±äµÃÓĞÁ¦¡¢¸úÊÖ
-            rb.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);//·½Ïò*ËÙ¶È
+            rb.velocity = new Vector2(rb.velocity.x, 0f);//åœ¨æ–½åŠ è·³è·ƒåŠ›ä¹‹å‰ï¼ŒæŠŠYè½´é€Ÿåº¦æ¸…é›¶,ç¡®ä¿æ¯æ¬¡è·³è·ƒçš„é«˜åº¦éƒ½ä¸€è‡´äºŒæ®µè·³å˜å¾—æœ‰åŠ›ã€è·Ÿæ‰‹
+            rb.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);//æ–¹å‘*é€Ÿåº¦
             jumpCount--;
             isJump = false;
         }
 
-        //´ı×ö£º
-        //ÌøÔ¾ÊÖ¸ĞÓÅ»¯£¨ÖØÁ¦ÒòËØ£©£¨³¤°´ÌøµÄ¸üÔ¶µÈµÈ¡£¡£
+        //å¾…åšï¼š
+        //è·³è·ƒæ‰‹æ„Ÿä¼˜åŒ–ï¼ˆé‡åŠ›å› ç´ ï¼‰ï¼ˆé•¿æŒ‰è·³çš„æ›´è¿œç­‰ç­‰ã€‚ã€‚
 
     }
-    
-    
+    public bool GetIsSeparated()
+    {
+Â  Â  Â  Â  // isSeparated å˜é‡å·²ç»åœ¨ FixedUpdate ä¸­è¢«æ­£ç¡®æ›´æ–°äº†
+Â  Â  Â  Â  return isSeparated;
+    }
+
 }
 

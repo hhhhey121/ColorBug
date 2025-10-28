@@ -17,11 +17,11 @@ public class PlayerLaserAbility : MonoBehaviour
     private bool canAbsorb = true;
 
     [Header("ºÏ≤‚…Ë÷√")]
-    public float absorbCheckDistance = 4.0f;
+    public float absorbCheckDistance = 3.0f;
     public float absorbCheckHeight = 10.0f;
     public LayerMask laserLayer;
 
-    public float fireCheckDistance = 4.0f;
+    public float fireCheckDistance = 2.0f;
     public float fireCheckHeight = 10.0f;
     public LayerMask blueSquareLayer;
 
