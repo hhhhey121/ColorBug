@@ -419,12 +419,12 @@ MonoBehaviour:
   laserAmmo: 0
   firePoint: {fileID: 374635989470955634}
   absorbCooldown: 0.5
-  absorbCheckDistance: 1
+  absorbCheckDistance: 4
   absorbCheckHeight: 10
   laserLayer:
     serializedVersion: 2
     m_Bits: 4096
-  fireCheckDistance: 2
+  fireCheckDistance: 4
   fireCheckHeight: 10
   blueSquareLayer:
     serializedVersion: 2

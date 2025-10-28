@@ -57,16 +57,16 @@ public class PlayerLife : MonoBehaviour
 
         if (collision.CompareTag("LethalLaser"))
         {
-            // (你现有的激光解锁逻辑，保持不变)
-            if (laserAbility != null && laserAbility.HasAbility())
+            // 1. 检查玩家是否 *没有* 能力
+            if (laserAbility == null || !laserAbility.HasAbility())
             {
-                return;
-            }
-            else
-            {
+                // 如果没有能力，才通知 AbilityManager（这似乎是你的解锁逻辑）
                 AbilityManager.Instance.OnPlayerKilledByLaser();
-                Die();
             }
+
+            // 2. 【修改】无论玩家是否有能力，都执行死亡
+            // 之前的 Die() 在 else 语句块里，现在移到外面
+            Die();
         }
     }
 

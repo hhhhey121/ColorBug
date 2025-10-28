@@ -7964,6 +7964,14 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 2296699147643605600, guid: 57c73e52959f7a244b0597c41cf75f40, type: 3}
+      propertyPath: fireCheckDistance
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2296699147643605600, guid: 57c73e52959f7a244b0597c41cf75f40, type: 3}
+      propertyPath: absorbCheckDistance
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 4107497733293365783, guid: 57c73e52959f7a244b0597c41cf75f40, type: 3}
       propertyPath: coinText
       value: 
