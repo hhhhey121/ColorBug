@@ -12,7 +12,6 @@ public class ToggleButton : MonoBehaviour
     public float simultaneityThreshold = 1f;
     public float autoResetTime = 1.0f;
 
-
     //通用模式
     public MovingPlatform[] platformsToControl;
 
@@ -25,10 +24,31 @@ public class ToggleButton : MonoBehaviour
     public float lastPressTime = -1f;// 双按钮模式的时间检查
     private float lastHitRegisterTime = -1f;// 用于冷却时间检查
 
-    private float pressCooldown = 1f;//两个模式都使用此冷却时间
+    private float pressCooldown = 0.5f;//两个模式都使用此冷却时间
 
-    
-    void UpdateSprite()//按钮的视觉表现
+
+    // ??【新增】音效设置
+    [Header("Sound Settings")]
+    public AudioClip pressSound;           // 按下音效
+    public AudioClip dualSuccessSound;     // 双按钮同时成功音效（可选）
+    private AudioSource audioSource;       // 音源
+
+
+    void Start()
+    {
+        sr = GetComponent<SpriteRenderer>();
+        UpdateSprite(); // 初始化Sprite状态
+
+        // ??初始化AudioSource
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+        audioSource.playOnAwake = false;
+    }
+
+    void UpdateSprite() //按钮的视觉表现
     {
         if (sr != null && pressedSprite != null && unpressedSprite != null)
         {
@@ -36,37 +56,22 @@ public class ToggleButton : MonoBehaviour
         }
     }
 
-
-
-
-    void Start()
-    {
-        sr= GetComponent<SpriteRenderer>();
-        UpdateSprite(); // 初始化Sprite状态
-    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         //检查冷却时间
-        if(Time.time < lastHitRegisterTime + pressCooldown)
+        if (Time.time < lastHitRegisterTime + pressCooldown)
         {
             return;
         }
 
         //检查玩家是否碰到
-        
-        if(collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player"))
         {
             bool hit = true;
-            //foreach(ContactPoint2D contact in collision.contacts)//从上面踩
-            //{
 
-            //}
-            hit = true;
-
-            if(hit)
+            if (hit)
             {
                 lastHitRegisterTime = Time.time;//重置冷却计时
-
 
                 // 根据模式调用不同的按下逻辑
                 if (requiresOtherButton)
@@ -79,20 +84,19 @@ public class ToggleButton : MonoBehaviour
                 {
                     TogglePlatforms();
                 }
-
-
-                
             }
         }
     }
 
-    void TogglePlatforms()//单按钮
+    void TogglePlatforms() //单按钮模式
     {
-        isPressed = !isPressed;//切换状态
-
+        isPressed = !isPressed; //切换状态
         UpdateSprite(); // 更新视觉
 
-        foreach (MovingPlatform platform in platformsToControl)//移动平台
+        // ?? 播放音效
+        PlaySound(pressSound);
+
+        foreach (MovingPlatform platform in platformsToControl)
         {
             if (platform != null)
             {
@@ -101,17 +105,17 @@ public class ToggleButton : MonoBehaviour
         }
     }
 
-
-    void PressButton_Dual()//双按钮
+    void PressButton_Dual() //双按钮模式
     {
         isPressed = true;
-        lastPressTime = Time.time;//记录当前按下的时间
+        lastPressTime = Time.time; //记录当前按下的时间
 
         UpdateSprite();
 
+        // ?? 播放按下音效
+        PlaySound(pressSound);
 
         // 启动自动重置计时器
-        // (先取消已有的，防止玩家快速连踩导致Invoke混乱)
         CancelInvoke("ResetButton");
         Invoke("ResetButton", autoResetTime);
 
@@ -121,18 +125,13 @@ public class ToggleButton : MonoBehaviour
             // 检查时间差
             if (Mathf.Abs(this.lastPressTime - otherButton.lastPressTime) <= simultaneityThreshold)
             {
-                // 成功！
                 Debug.Log("同时按下成功!");
 
+                // ?? 播放双按钮成功音效
+                PlaySound(dualSuccessSound);
+
                 // 触发平台（包括对方的平台）
-               TriggerPlatforms(true);
-                //foreach (MovingPlatform platform in platformsToControl)//移动平台
-                //{
-                //    if (platform != null)
-                //    {
-                //        platform.ToggleTarget();
-                //    }
-                //}
+                TriggerPlatforms(true);
 
                 // 立即重置两个按钮
                 this.ResetButton();
@@ -141,25 +140,18 @@ public class ToggleButton : MonoBehaviour
         }
     }
 
-    
-    // 重置按钮（双按钮逻辑
+    // 重置按钮（双按钮逻辑）
     public void ResetButton()
     {
-        // 停止任何待处理的 "ResetButton" 调用
         CancelInvoke("ResetButton");
 
         isPressed = false;
         lastPressTime = -1f;
 
-        
         UpdateSprite();
     }
 
-
-    
     // 双按钮触发平台移动
-    
-    /// <param name="triggerBoth">是否也触发 otherButton 列表中的平台</param>
     void TriggerPlatforms(bool triggerBoth)
     {
         // 触发自己的平台
@@ -184,7 +176,12 @@ public class ToggleButton : MonoBehaviour
         }
     }
 
-   
+    // ?? 播放音效的通用函数
+    void PlaySound(AudioClip clip)
+    {
+        if (clip != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(clip);
+        }
+    }
 }
-
-
