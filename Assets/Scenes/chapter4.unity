@@ -3773,11 +3773,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7414700835763010930, guid: 2706a84366046d74b85f019535b388ac, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.6578407
+      value: 2.661666
       objectReference: {fileID: 0}
     - target: {fileID: 7414700835763010930, guid: 2706a84366046d74b85f019535b388ac, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.070112705
+      value: 0.07012558
       objectReference: {fileID: 0}
     - target: {fileID: 7414700835763010930, guid: 2706a84366046d74b85f019535b388ac, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6907,6 +6907,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 963499753449245770, guid: 1a799288bcbf8f4408ade374f5f06b6d, type: 3}
+      propertyPath: m_text
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 963499753449245770, guid: 1a799288bcbf8f4408ade374f5f06b6d, type: 3}
       propertyPath: m_fontAsset
       value: 

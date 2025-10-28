@@ -681,7 +681,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.32244593, y: 0}
+  m_Offset: {x: 0.25773686, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -692,7 +692,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.008451, y: 1.1811619}
+  m_Size: {x: 1.879033, y: 1.1811619}
   m_EdgeRadius: 0
 --- !u!212 &127641563
 SpriteRenderer:
@@ -7367,7 +7367,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.34514016, y: 0.027221382}
+  m_Offset: {x: -0.2664835, y: 0.027221382}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -7378,7 +7378,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.7400931, y: 1.0544426}
+  m_Size: {x: 1.5827798, y: 1.0544426}
   m_EdgeRadius: 0
 --- !u!212 &1034050626
 SpriteRenderer:
@@ -7656,7 +7656,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1afa2f336a4bc814cbda921fcb00acbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pressSound: {fileID: 0}
+  pressSound: {fileID: 8300000, guid: ef511d131fddd00409a96d4a77096523, type: 3}
   volume: 1
 --- !u!82 &1065971395
 AudioSource:
@@ -8674,7 +8674,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.10856485, y: 0}
+  m_Offset: {x: 0.07568884, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -8685,7 +8685,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.9945192, y: 1}
+  m_Size: {x: 1.8049994, y: 1}
   m_EdgeRadius: 0
 --- !u!212 &1174951241
 SpriteRenderer:
@@ -10385,15 +10385,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6151454435568598788, guid: eb1d95812219d92428585393c8c2a964, type: 3}
       propertyPath: m_LocalScale.x
-      value: 15.32
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 6151454435568598788, guid: eb1d95812219d92428585393c8c2a964, type: 3}
       propertyPath: m_LocalScale.y
-      value: 15.32
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 6151454435568598788, guid: eb1d95812219d92428585393c8c2a964, type: 3}
       propertyPath: m_LocalScale.z
-      value: 15.32
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 6151454435568598788, guid: eb1d95812219d92428585393c8c2a964, type: 3}
       propertyPath: m_LocalPosition.x
@@ -10401,7 +10401,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6151454435568598788, guid: eb1d95812219d92428585393c8c2a964, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.12
+      value: 4.16
       objectReference: {fileID: 0}
     - target: {fileID: 6151454435568598788, guid: eb1d95812219d92428585393c8c2a964, type: 3}
       propertyPath: m_LocalPosition.z
@@ -10903,11 +10903,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7414700835763010930, guid: 2706a84366046d74b85f019535b388ac, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.653854
+      value: 2.6610332
       objectReference: {fileID: 0}
     - target: {fileID: 7414700835763010930, guid: 2706a84366046d74b85f019535b388ac, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.06168461
+      value: 0.06168413
       objectReference: {fileID: 0}
     - target: {fileID: 7414700835763010930, guid: 2706a84366046d74b85f019535b388ac, type: 3}
       propertyPath: m_LocalPosition.z
