@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro; // 【新增】 引入 TextMeshPro 命名空间
+using TMPro; // 引入 TextMeshPro 命名空间
 
-// 【修改】移除 LineRenderer, 保留其他
-[RequireComponent(typeof(PlayerLife), typeof(PlayerMovement))]
+// 【修改】添加 AudioSource
+[RequireComponent(typeof(PlayerLife), typeof(PlayerMovement), typeof(AudioSource))]
 public class PlayerLaserAbility : MonoBehaviour
 {
     [Header("能力状态 (只读)")]
@@ -12,8 +12,8 @@ public class PlayerLaserAbility : MonoBehaviour
     [SerializeField] private int laserAmmo = 0;
     private const int MAX_AMMO = 3;
 
-    [Header("UI (炮弹显示)")] // 【新增】
-    [SerializeField] private TextMeshProUGUI ammoText; // 【新增】拖入你的 TextMeshPro UI
+    [Header("UI (炮弹显示)")]
+    [SerializeField] private TextMeshProUGUI ammoText; // 拖入你的 TextMeshPro UI
 
     [Header("配置")]
     public Transform firePoint;
@@ -30,18 +30,25 @@ public class PlayerLaserAbility : MonoBehaviour
     public LayerMask blueSquareLayer;
 
     [Header("视觉反馈 Prefab")]
-    public GameObject laserEffectPrefab; // 【新增】拖入你的 LaserEffect 预制体
+    public GameObject laserEffectPrefab; // 拖入你的 LaserEffect 预制体
+
+    // 【新增】音效
+    [Header("音效")]
+    public AudioClip absorbSound; // 拖入吸收音效
+    public AudioClip fireSound;   // 拖入发射音效
 
     // 内部引用
     private PlayerLife playerLife;
     private PlayerMovement playerMovement;
+    private AudioSource audioSource; // 【新增】音频播放器
 
     void Start()
     {
         playerLife = GetComponent<PlayerLife>();
         playerMovement = GetComponent<PlayerMovement>();
+        audioSource = GetComponent<AudioSource>(); // 【新增】获取 AudioSource
 
-        // 【新增】在游戏开始时就更新一次UI
+        // 在游戏开始时就更新一次UI
         UpdateAmmoText();
     }
 
@@ -78,9 +85,18 @@ public class PlayerLaserAbility : MonoBehaviour
             LethalLaser laser = hit.GetComponent<LethalLaser>();
             if (laser != null)
             {
+                // 【新增】播放吸收音效
+                // ...
+                if (audioSource != null && absorbSound != null)
+                {
+                    // 在 PlayOneShot 的第二个参数中传入音量
+                    audioSource.PlayOneShot(absorbSound, 2f);
+                }
+                // ...
+
                 laser.BeAbsorbed();
                 laserAmmo++;
-                UpdateAmmoText(); // 【新增】更新UI
+                UpdateAmmoText(); // 更新UI
                 Debug.Log("吸收成功! 弹药: " + laserAmmo);
                 StartCoroutine(AbsorbCooldownRoutine());
                 // 【修改】视觉反馈 - 实例化效果
@@ -109,9 +125,22 @@ public class PlayerLaserAbility : MonoBehaviour
             BlueSquare square = hit.GetComponent<BlueSquare>();
             if (square != null)
             {
+                // 【新增】播放发射音效
+                //if (audioSource != null && fireSound != null)
+                //{
+                //    audioSource.PlayOneShot(fireSound);
+                //}
+                // ...
+                if (audioSource != null && fireSound != null)
+                {
+                    // 在 PlayOneShot 的第二个参数中传入音量
+                    audioSource.PlayOneShot(fireSound, 2f);
+                }
+                // ...
+
                 square.BeDestroyed();
                 laserAmmo--;
-                UpdateAmmoText(); // 【新增】更新UI
+                UpdateAmmoText(); // 更新UI
                 Debug.Log("发射成功! 击中方块! 剩余弹药: " + laserAmmo);
                 // 【修改】视觉反馈 - 实例化效果
                 SpawnLaserEffect(hit.transform.position, false);
@@ -128,7 +157,7 @@ public class PlayerLaserAbility : MonoBehaviour
     {
         hasAbility = true;
         laserAmmo = 0;
-        UpdateAmmoText(); // 【新增】更新UI
+        UpdateAmmoText(); // 更新UI
         Debug.Log("【能力已解锁】已获得激光能力！现在可以吸收激光了。");
     }
     public bool HasAbility() { return hasAbility; }
@@ -139,7 +168,7 @@ public class PlayerLaserAbility : MonoBehaviour
         canAbsorb = true;
     }
 
-    // 【新增】专门用于更新弹药UI的方法
+    // 专门用于更新弹药UI的方法
     private void UpdateAmmoText()
     {
         if (ammoText != null)
@@ -148,7 +177,7 @@ public class PlayerLaserAbility : MonoBehaviour
         }
     }
 
-    // 【新增】实例化和初始化效果的方法
+    // 实例化和初始化效果的方法
     private void SpawnLaserEffect(Vector3 targetPoint, bool isAbsorb)
     {
         if (laserEffectPrefab != null && firePoint != null)

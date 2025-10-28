@@ -269,6 +269,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 13661998437554318}
     m_Modifications:
     - target: {fileID: 465161793406579180, guid: 5670b47568439cb47b10e54904c7ddb0, type: 3}
+      propertyPath: jumpSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 01c8f9a297a9b4f4d82698673dfbd9d2, type: 3}
+    - target: {fileID: 465161793406579180, guid: 5670b47568439cb47b10e54904c7ddb0, type: 3}
       propertyPath: jumpSpeed
       value: 6.24
       objectReference: {fileID: 0}
@@ -397,6 +401,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6560795049023389665, guid: 5670b47568439cb47b10e54904c7ddb0, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3488255275658365644}
+    - targetCorrespondingSourceObject: {fileID: 6560795049023389665, guid: 5670b47568439cb47b10e54904c7ddb0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2886953136937692747}
   m_SourcePrefab: {fileID: 100100000, guid: 5670b47568439cb47b10e54904c7ddb0, type: 3}
 --- !u!1 &792946467029485868 stripped
 GameObject:
@@ -417,6 +424,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hasAbility: 0
   laserAmmo: 0
+  ammoText: {fileID: 0}
   firePoint: {fileID: 374635989470955634}
   absorbCooldown: 0.5
   absorbCheckDistance: 2
@@ -430,6 +438,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8192
   laserEffectPrefab: {fileID: 930603158085082649, guid: 93b7efb274f6c994bab80b070b9f8d8e, type: 3}
+  absorbSound: {fileID: 8300000, guid: ffa3172cd4d1e604da85b67364869483, type: 3}
+  fireSound: {fileID: 8300000, guid: b2debc11e7707d242bfdd904a44bc0f5, type: 3}
 --- !u!120 &3618711890840554584
 LineRenderer:
   serializedVersion: 2
@@ -638,6 +648,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &2886953136937692747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 792946467029485868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49f73c1cbc9001347a97501016811042, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pickUpSound: {fileID: 8300000, guid: df7ede83ad721b548bd785fccff32a8d, type: 3}
 --- !u!4 &2852853358064181402 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8618451293443036759, guid: 5670b47568439cb47b10e54904c7ddb0, type: 3}

@@ -3,68 +3,64 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+[RequireComponent(typeof(AudioSource))]
 public class Finish : MonoBehaviour
 {
-    private AudioSource finishSound;
+    private AudioSource audioSource;
 
-    // 在Unity的Inspector中设置本关需要多少金币
+    public AudioClip successSound;
     public int requiredCoins = 1;
-
-    // (可选) 金币不够时播放的音效
     public AudioClip lockedSound;
-
-    // 【修改点 1】
-    // 在Unity Inspector中设置通关后要加载的场景名称
-    // 比如："Level_2", "VictoryScene", 或者 "MainMenu"
     public string targetSceneName;
 
+    // 【新增】添加一个布尔值，防止玩家在延迟期间重复触发通关
+    private bool isLoadingLevel = false;
 
     void Start()
     {
-        finishSound = GetComponent<AudioSource>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // 建议使用标签(Tag)来检查玩家
-        if (collision.gameObject.CompareTag("Player"))
+        // 【修改】增加一个条件 !isLoadingLevel，防止重复触发
+        if (collision.gameObject.CompareTag("Player") && !isLoadingLevel)
         {
-            // 1. 尝试从碰撞到的玩家(collision.gameObject)身上获取 Coin 脚本
             Coin playerCoinCollector = collision.gameObject.GetComponent<Coin>();
-            // 获取 PlayerMovement 脚本
             PlayerMovement playerMovement = collision.gameObject.GetComponent<PlayerMovement>();
 
             if (playerCoinCollector != null && playerMovement != null)
             {
                 bool coinsOK = playerCoinCollector.GetCoinCount() >= requiredCoins;
-                // "合并" 意味着 "isSeparated" 为 false
                 bool mergedOK = !playerMovement.GetIsSeparated();
 
                 if (coinsOK && mergedOK)
                 {
-                    // 条件 1: 金币足够
-                    // 条件 2: 角色已合并
-                    finishSound.Play();
-                    finishLevel();
+                    // 【新增】立即将状态设为“正在加载”，防止再次触发
+                    isLoadingLevel = true;
+
+                    if (successSound != null)
+                    {
+                        audioSource.PlayOneShot(successSound);
+                    }
+
+                    // 【修改】不再直接调用 finishLevel()，
+                    // 而是启动一个带有 1.5 秒延迟的协程
+                    StartCoroutine(LoadNextSceneAfterDelay(1.5f));
                 }
-                // 【逻辑修正】
-                // 将金币检查和合并检查分开，使其能正确触发
                 else if (!coinsOK)
                 {
-                    // 失败原因 1: 金币不够
                     Debug.Log("金币不足! 需要: " + requiredCoins + ", 当前: " + playerCoinCollector.GetCoinCount());
                     PlayLockedSound();
                 }
                 else if (!mergedOK)
                 {
-                    // 失败原因 2: 金币够了，但角色未合并
                     Debug.Log("角色未合并!");
                     PlayLockedSound();
                 }
             }
             else
             {
-                // 脚本缺失的错误处理
                 if (playerCoinCollector == null)
                 {
                     Debug.LogError("在玩家身上没有找到 Coin.cs 脚本!");
@@ -77,26 +73,32 @@ public class Finish : MonoBehaviour
         }
     }
 
-    // (辅助方法，避免重复代码)
     private void PlayLockedSound()
     {
-        if (lockedSound != null && !finishSound.isPlaying)
+        if (lockedSound != null && !audioSource.isPlaying)
         {
-            finishSound.PlayOneShot(lockedSound);
+            audioSource.PlayOneShot(lockedSound);
         }
     }
 
-    private void finishLevel() //关卡结束
+    // 【修改】删除了原来的 finishLevel() 方法
+    // 【新增】创建了一个新的协程方法
+    private IEnumerator LoadNextSceneAfterDelay(float delay)
     {
-        // 【修改点 2】
-        // 检查是否设置了目标场景名称
+        // 1. 暂停执行，等待 'delay' 参数指定的秒数（这里是 1.5 秒）
+        yield return new WaitForSeconds(delay);
+
+        // 2. 等待结束后，执行原来的场景加载逻辑
         if (string.IsNullOrEmpty(targetSceneName))
         {
             Debug.LogError("通关失败：请在 Finish 脚本的 'Target Scene Name' 字段中设置要加载的场景名称！");
-            return; // 阻止加载，因为不知道要去哪个场景
+
+            // 【新增】如果出错，别忘了把状态改回来，以便玩家可以重试
+            isLoadingLevel = false;
+            yield break; // 退出协程
         }
 
-        // 加载在 Inspector 中指定的场景
+        // 3. 加载新场景
         SceneManager.LoadScene(targetSceneName);
     }
 }
