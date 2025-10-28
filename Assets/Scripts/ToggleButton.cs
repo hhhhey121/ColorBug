@@ -25,7 +25,7 @@ public class ToggleButton : MonoBehaviour
     public float lastPressTime = -1f;// 双按钮模式的时间检查
     private float lastHitRegisterTime = -1f;// 用于冷却时间检查
 
-    private float pressCooldown = 0.5f;//两个模式都使用此冷却时间
+    private float pressCooldown = 1f;//两个模式都使用此冷却时间
 
     
     void UpdateSprite()//按钮的视觉表现
