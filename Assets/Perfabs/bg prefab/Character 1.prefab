@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 7877632048917182179}
   - component: {fileID: 7035028620236723610}
   - component: {fileID: 3861650771601477591}
+  - component: {fileID: 310289339402132704}
   m_Layer: 0
   m_Name: LaserEffect
   m_TagString: Untagged
@@ -140,6 +141,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &310289339402132704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5091269378196726071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb8bb3c96bf9b6847bbccd4205f99a7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  autoDestroyTime: 0.5
 --- !u!1 &8930750666179247691
 GameObject:
   m_ObjectHideFlags: 0
