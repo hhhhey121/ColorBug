@@ -52,10 +52,12 @@ public class PlayerLaserAbility : MonoBehaviour
 
         if (Input.GetButtonDown("Fire2")) // 吸收
         {
+            Debug.Log("Fire2 pressed!"); // <-- 添加日志1
             TryAbsorb();
         }
         if (Input.GetButtonDown("Fire1")) // 发射
         {
+            Debug.Log("Fire1 pressed!"); // <-- 添加日志2
             TryFire();
         }
     }
@@ -68,10 +70,12 @@ public class PlayerLaserAbility : MonoBehaviour
         float facingDir = playerMovement.GetFacingDirection();
         Vector2 boxCenter = (Vector2)firePoint.position + new Vector2(facingDir * (absorbCheckDistance / 2), 0);
         Vector2 boxSize = new Vector2(absorbCheckDistance, absorbCheckHeight);
+        Debug.Log("TryAbsorb: Checking OverlapBox..."); // <-- 添加日志3
         Collider2D hit = Physics2D.OverlapBox(boxCenter, boxSize, 0f, laserLayer);
 
         if (hit != null)
         {
+            Debug.Log("TryAbsorb: Hit successful! Target: " + hit.name); // <-- 添加日志4
             LethalLaser laser = hit.GetComponent<LethalLaser>();
             if (laser != null)
             {
@@ -82,11 +86,16 @@ public class PlayerLaserAbility : MonoBehaviour
                 // 【修改】视觉反馈 - 实例化效果
                 SpawnLaserEffect(hit.transform.position, true);
             }
+            else
+            {
+                Debug.Log("TryAbsorb: OverlapBox missed!"); // <-- 添加日志5
+            }
         }
     }
 
     private void TryFire()
     {
+        Debug.Log("TryFire: Checking OverlapBox..."); // <-- 添加日志6
         if (laserAmmo <= 0) return;
 
         float facingDir = playerMovement.GetFacingDirection();
@@ -96,6 +105,7 @@ public class PlayerLaserAbility : MonoBehaviour
 
         if (hit != null)
         {
+            Debug.Log("TryFire: Hit successful! Target: " + hit.name); // <-- 添加日志7
             BlueSquare square = hit.GetComponent<BlueSquare>();
             if (square != null)
             {
@@ -104,6 +114,10 @@ public class PlayerLaserAbility : MonoBehaviour
                 Debug.Log("发射成功! 击中方块! 剩余弹药: " + laserAmmo);
                 // 【修改】视觉反馈 - 实例化效果
                 SpawnLaserEffect(hit.transform.position, false);
+            }
+            else
+            {
+                Debug.Log("TryFire: OverlapBox missed!"); // <-- 添加日志8
             }
         }
     }
