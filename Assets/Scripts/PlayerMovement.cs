@@ -8,6 +8,9 @@ public class PlayerMovement : MonoBehaviour
 
     Animator anim;
 
+    //定义 Animator 参数名称的哈希值
+    private static readonly int IsSeparatedHash = Animator.StringToHash("IsSeparated");
+
     public float playerSpeed = 5f;
     [Range(1, 10)]
     public float jumpSpeed = 5f;
@@ -55,6 +58,12 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()//每渲染一帧就调用一下(input类放置
     {
+        //将isSeparated 状态传递给 Animator
+        if (anim != null)
+        {
+            anim.SetBool(IsSeparatedHash, isSeparated);
+        }
+
         moveX = Input.GetAxisRaw("Horizontal");//获取A D -1 1
         moveJump = Input.GetButtonDown("Jump");//获取W
 
