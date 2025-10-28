@@ -6107,6 +6107,10 @@ PrefabInstance:
       propertyPath: m_SpriteTilingProperty.oldSize.y
       value: 12.8
       objectReference: {fileID: 0}
+    - target: {fileID: 1064061563394550587, guid: 5decb53ffa090be40863d88399880b59, type: 3}
+      propertyPath: playerA_Ability
+      value: 
+      objectReference: {fileID: 1976905136}
     - target: {fileID: 1100697613047126957, guid: 5decb53ffa090be40863d88399880b59, type: 3}
       propertyPath: m_Sprite
       value: 
