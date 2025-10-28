@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro; // 【新增】 引入 TextMeshPro 命名空间
 
 // 【修改】移除 LineRenderer, 保留其他
 [RequireComponent(typeof(PlayerLife), typeof(PlayerMovement))]
@@ -10,6 +11,9 @@ public class PlayerLaserAbility : MonoBehaviour
     [SerializeField] private bool hasAbility = false;
     [SerializeField] private int laserAmmo = 0;
     private const int MAX_AMMO = 3;
+
+    [Header("UI (炮弹显示)")] // 【新增】
+    [SerializeField] private TextMeshProUGUI ammoText; // 【新增】拖入你的 TextMeshPro UI
 
     [Header("配置")]
     public Transform firePoint;
@@ -25,25 +29,20 @@ public class PlayerLaserAbility : MonoBehaviour
     public float fireCheckHeight = 10.0f;
     public LayerMask blueSquareLayer;
 
-    // 【修改】视觉反馈
-    // public float lineVisibleTime = 0.2f; // 不再需要
-    // public Color absorbLineColor = Color.cyan; // 不再需要
-    // public Color fireLineColor = Color.red; // 不再需要
     [Header("视觉反馈 Prefab")]
     public GameObject laserEffectPrefab; // 【新增】拖入你的 LaserEffect 预制体
 
     // 内部引用
     private PlayerLife playerLife;
     private PlayerMovement playerMovement;
-    // private LineRenderer lineRenderer; // 【删除】
 
     void Start()
     {
         playerLife = GetComponent<PlayerLife>();
         playerMovement = GetComponent<PlayerMovement>();
-        // lineRenderer = GetComponent<LineRenderer>(); // 【删除】
-        // lineRenderer.enabled = false; // 【删除】
-        // lineRenderer.positionCount = 2; // 【删除】
+
+        // 【新增】在游戏开始时就更新一次UI
+        UpdateAmmoText();
     }
 
     void Update()
@@ -81,6 +80,7 @@ public class PlayerLaserAbility : MonoBehaviour
             {
                 laser.BeAbsorbed();
                 laserAmmo++;
+                UpdateAmmoText(); // 【新增】更新UI
                 Debug.Log("吸收成功! 弹药: " + laserAmmo);
                 StartCoroutine(AbsorbCooldownRoutine());
                 // 【修改】视觉反馈 - 实例化效果
@@ -111,6 +111,7 @@ public class PlayerLaserAbility : MonoBehaviour
             {
                 square.BeDestroyed();
                 laserAmmo--;
+                UpdateAmmoText(); // 【新增】更新UI
                 Debug.Log("发射成功! 击中方块! 剩余弹药: " + laserAmmo);
                 // 【修改】视觉反馈 - 实例化效果
                 SpawnLaserEffect(hit.transform.position, false);
@@ -127,6 +128,7 @@ public class PlayerLaserAbility : MonoBehaviour
     {
         hasAbility = true;
         laserAmmo = 0;
+        UpdateAmmoText(); // 【新增】更新UI
         Debug.Log("【能力已解锁】已获得激光能力！现在可以吸收激光了。");
     }
     public bool HasAbility() { return hasAbility; }
@@ -137,8 +139,14 @@ public class PlayerLaserAbility : MonoBehaviour
         canAbsorb = true;
     }
 
-    // 【删除】ShowLaserLine 协程
-    // private IEnumerator ShowLaserLine(...) { ... }
+    // 【新增】专门用于更新弹药UI的方法
+    private void UpdateAmmoText()
+    {
+        if (ammoText != null)
+        {
+            ammoText.text = laserAmmo + " / " + MAX_AMMO;
+        }
+    }
 
     // 【新增】实例化和初始化效果的方法
     private void SpawnLaserEffect(Vector3 targetPoint, bool isAbsorb)
