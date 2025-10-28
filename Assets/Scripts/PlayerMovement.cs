@@ -22,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
 
     public Transform otherPlayer;//拖入另一个玩家对象
     public float sperarationThreshold = 0.1f;//同一垂直线判定
+    public float otherPlayerHeight = 1.0f;
     private bool isSeparated = false;
 
     public int maxJumpCountCombined = 1;
@@ -39,7 +40,7 @@ public class PlayerMovement : MonoBehaviour
     public bool isJump;//传递作用，表跳跃状态
 
 
-    private float facingDirection = 1f;
+    //private float facingDirection = 1f;
 
 
     void Start()//开始时调用一下
@@ -83,9 +84,10 @@ public class PlayerMovement : MonoBehaviour
 
         //检查x轴坐标差值
         float distanceX=Mathf.Abs(transform.position.x-otherPlayer.position.x);
-
+        // 【新增】检查y轴坐标差值
+        float distanceY = Mathf.Abs(transform.position.y - otherPlayer.position.y);
         //分离定义
-        if(distanceX > sperarationThreshold )
+        if (distanceX > sperarationThreshold || distanceY > (otherPlayerHeight * 2.0f))
         {
             isSeparated=true;
         }
